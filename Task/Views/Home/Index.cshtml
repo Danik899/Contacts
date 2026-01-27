@@ -43,7 +43,6 @@ const title = document.getElementById('title');
 
 load();
 
-/* ===== LIST ===== */
 function load() {
   fetch('/Contacts')
     .then(r => r.json())
@@ -66,7 +65,6 @@ function load() {
     });
 }
 
-/* ===== CREATE / EDIT ===== */
 function openCreate() {
   editingId = null;
   title.innerText = 'Новый контакт';
@@ -87,7 +85,6 @@ function edit(c) {
 }
 
 
-/* ===== SAVE (with validation) ===== */
 function save() {
   if (!name.value.trim()) {
     error.innerText = 'Имя обязательно';
@@ -119,7 +116,6 @@ function save() {
   .catch(() => error.innerText = 'Ошибка сохранения');
 }
 
-/* ===== DELETE ===== */
 function removeContact(id) {
   if (!confirm('Удалить контакт?')) return;
   fetch('/Contacts/Delete?id=' + id, { method: 'POST' })
