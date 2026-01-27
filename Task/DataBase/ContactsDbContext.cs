@@ -19,4 +19,24 @@ public class ContactsDbContext: DbContext
                 "Host=localhost;Port=5432;Database=contactsdb;Username=appuser;Password=secret");
         }
     }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Contacts>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+
+            entity.Property(x => x.Name)
+                .IsRequired();
+
+            entity.Property(x => x.MobilePhone)
+                .IsRequired();
+
+            entity.Property(x => x.JobTitle)
+                .IsRequired();
+
+            entity.Property(x => x.BirthDate)
+                .HasColumnType("date");
+        });
+    }
 }

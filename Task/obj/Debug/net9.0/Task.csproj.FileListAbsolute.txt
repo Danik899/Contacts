@@ -194,3 +194,4 @@ D:\Projects\Task\Task\obj\Debug\net9.0\refint\Task.dll
 D:\Projects\Task\Task\obj\Debug\net9.0\Task.pdb
 D:\Projects\Task\Task\obj\Debug\net9.0\Task.genruntimeconfig.cache
 D:\Projects\Task\Task\obj\Debug\net9.0\ref\Task.dll
+D:\Projects\Task\Task\obj\Debug\net9.0\Task.sourcelink.json
