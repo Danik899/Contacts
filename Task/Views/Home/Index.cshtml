@@ -118,7 +118,7 @@ function save() {
 
 function removeContact(id) {
   if (!confirm('Удалить контакт?')) return;
-  fetch('/Contacts/Delete?id=' + id, { method: 'POST' })
+  fetch('/Contacts/Delete?id=' + id, { method: 'DELETE' })
     .then(load);
 }
 </script>

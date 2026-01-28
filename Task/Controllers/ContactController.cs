@@ -1,61 +1,44 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Task.DataBase;
 using Task.Models;
+using Task.Services;
 
 namespace Task.Controllers;
-
 
 [ApiController]
 [Route("Contacts")]
 public class ContactController : Controller
 {
-    private readonly ContactsDbContext _contactsDbContext;
+    private readonly IContactsService _service;
 
-    public ContactController(ContactsDbContext contactsDbContext)
+    public ContactController(IContactsService service)
     {
-        _contactsDbContext = contactsDbContext;
+        _service = service;
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        return Json(_contactsDbContext.Contacts.ToList());
+        return Ok(await _service.GetAllAsync());
     }
 
     [HttpPost("Create")]
-    public IActionResult Create([FromBody] Contacts contacts)
+    public async Task<IActionResult> Create([FromBody] Contacts contact)
     {
-        _contactsDbContext.Add(contacts);
-        _contactsDbContext.SaveChanges();
-        return Ok(contacts);
-    }
-
-    [HttpPost("Delete")]
-    public IActionResult Delete(int id)
-    {
-        var contacts = _contactsDbContext.Contacts.Find(id);
-        if (contacts != null)
-        {
-            _contactsDbContext.Contacts.Remove(contacts);
-            _contactsDbContext.SaveChanges();
-        }
-        return Ok();
+        var result = await _service.CreateAsync(contact);
+        return Ok(result);
     }
 
     [HttpPost("Update")]
-    public IActionResult Update([FromBody] Contacts contacts)
+    public async Task<IActionResult> Update([FromBody] Contacts contact)
     {
-        var exist = _contactsDbContext.Contacts.Find(contacts.Id);
-        if (exist == null)
-        {
-            return NotFound();
-        }
-        exist.Name = contacts.Name;
-        exist.MobilePhone = contacts.MobilePhone;
-        exist.JobTitle = contacts.JobTitle;
-        exist.BirthDate = contacts.BirthDate;
+        var ok = await _service.UpdateAsync(contact);
+        return ok ? Ok() : NotFound();
+    }
 
-        _contactsDbContext.SaveChanges();
-        return Ok();
+    [HttpDelete("Delete")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var ok = await _service.DeleteAsync(id);
+        return ok ? Ok() : NotFound();
     }
 }
