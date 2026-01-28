@@ -4,40 +4,44 @@ using Task.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+// Подключение postgres к проекту через защищенный файл json
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<ContactsDbContext>(options => options.UseNpgsql(connection));
+// Сервисы
+builder.Services.AddDbContext<ContactsDbContext>(options =>
+    options.UseNpgsql(connectionString));
+
 builder.Services.AddScoped<IContactsService, ContactsService>();
 
-
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
+// Инициализация БД
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ContactsDbContext>();
     db.Database.EnsureCreated();
 }
 
-
+// Место для отлова ошибки при запуске
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+    app.UseExceptionHandler(appError =>
+    {
+        appError.Run(async context =>
+        {
+            context.Response.StatusCode = 500;
+            await context.Response.WriteAsync("Internal server error");
+        });
+    });
 }
 
-app.UseHttpsRedirection();
+// Middleware
 app.UseRouting();
-
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
-app.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+// Эндпоинты
+app.MapControllers();
 
 app.Run();
