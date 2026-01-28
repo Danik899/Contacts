@@ -77,3 +77,9 @@
 ### Запуск
 ```bash
 docker-compose up --build
+```
+
+-Путь к серверу
+```
+http://localhost:5128
+```

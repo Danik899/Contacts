@@ -13,7 +13,7 @@ builder.Services.AddDbContext<ContactsDbContext>(options =>
 
 builder.Services.AddScoped<IContactsService, ContactsService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
@@ -40,6 +40,10 @@ if (!app.Environment.IsDevelopment())
 // Middleware
 app.UseRouting();
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // Эндпоинты
 app.MapControllers();

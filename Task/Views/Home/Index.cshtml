@@ -94,6 +94,11 @@ function save() {
     error.innerText = 'Дата рождения обязательна';
     return;
   }
+  const phonePattern = /^\+?\d{10,11}$/;
+  if (phone.value && !phonePattern.test(phone.value.trim())) {
+  error.innerText = 'Неверный формат телефона';
+  return;
+  }
 
   const body = {
     Id: editingId ?? 0,
