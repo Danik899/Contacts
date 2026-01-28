@@ -28,6 +28,7 @@ public class ContactsService : IContactsService
         }
     }
 
+    //C- создание контакта
     public async Task<Contacts> CreateAsync(Contacts contact)
     {
         try
@@ -43,6 +44,7 @@ public class ContactsService : IContactsService
         }
     }
 
+    //U - обновить контакт
     public async Task<bool> UpdateAsync(Contacts contact)
     {
         try
@@ -66,6 +68,7 @@ public class ContactsService : IContactsService
         
     }
 
+    //D-удалить контакт
     public async Task<bool> DeleteAsync(int id)
     {
         try

@@ -11,6 +11,8 @@ public class ContactsDbContext: DbContext
     {
     }
 
+    
+    //Метод при создании модели
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Contacts>(entity =>

@@ -30,6 +30,7 @@ public class ContactController : Controller
         }
     }
 
+    //Создание контакта 
     [HttpPost("Create")]
     public async Task<IActionResult> Create([FromBody] Contacts contact)
     {
@@ -45,6 +46,7 @@ public class ContactController : Controller
         }
     }
 
+    //Обновить контакт
     [HttpPost("Update")]
     public async Task<IActionResult> Update([FromBody] Contacts contact)
     {
@@ -60,6 +62,7 @@ public class ContactController : Controller
         }
     }
 
+    //Удалить контакт
     [HttpDelete("Delete")]
     public async Task<IActionResult> Delete(int id)
     {
