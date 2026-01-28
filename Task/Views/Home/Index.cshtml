@@ -14,7 +14,7 @@
       </div>
       <div class="modal-body">
         <input id="name" class="form-control mb-2" placeholder="Имя">
-        <input id="phone" class="form-control mb-2" placeholder="Телефон">
+        <input id="phone" class="form-control mb-2" placeholder="Телефон XXX XX XXX XX XX">
         <input id="job" class="form-control mb-2" placeholder="Должность">
         <input id="birth" class="form-control mb-2" type="date">
         <div id="error" class="text-danger small"></div>
@@ -94,7 +94,26 @@ function save() {
     error.innerText = 'Дата рождения обязательна';
     return;
   }
-  const phonePattern = /^\+?\d{10,11}$/;
+  
+  const birthDate = new Date(birth.value);
+  const today = new Date();
+  
+  if (birthDate > today) {
+    error.innerText = 'Дата рождения не может быть в будущем';
+    return;
+  }
+    const oldest = new Date();
+  oldest.setFullYear(today.getFullYear() - 60);
+  if (birthDate < oldest) {
+    error.innerText = 'Дата рождения слишком старая';
+    return;
+  }
+  if(!job.value.trim())
+  {
+    error.innerText = 'Должность не должна быть пустой';
+    return;
+  }
+  const phonePattern = /^\+?\d{10,13}$/;
   if (phone.value && !phonePattern.test(phone.value.trim())) {
   error.innerText = 'Неверный формат телефона';
   return;
